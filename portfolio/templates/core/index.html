@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Home Section -->
+<section id="home" class="hero-section">
+    <div class="hero-content scroll-reveal">
+        <p class="greeting cosmic-text">Initiating connection...</p>
+        <h1 class="name glow-text">{{ profile.name|default:"Developer" }}</h1>
+        <h2 class="title text-gradient">Exploring the digital universe.</h2>
+        <p class="description glass-card">
+            {{ profile.hero_text|default:"I build things for the web." }}
+        </p>
+        <div class="cta-buttons">
+            <a href="#projects" class="btn primary-btn cosmic-btn">View Missions</a>
+            <a href="#contact" class="btn secondary-btn nebula-btn">Contact Command</a>
+        </div>
+    </div>
+    <div class="floating-astronaut scroll-reveal fade-right">
+        <i class="fas fa-user-astronaut"></i>
+    </div>
+</section>
+
+<!-- About & Education Section -->
+<section id="about" class="about-section">
+    <div class="section-heading scroll-reveal">
+        <h2><i class="fas fa-satellite"></i> Commander Profile</h2>
+        <div class="line cosmic-line"></div>
+    </div>
+    
+    <div class="about-description glass-card scroll-reveal fade-up" style="margin-bottom: 2rem;">
+        <p>{{ profile.about_text }}</p>
+    </div>
+
+    <div class="about-grid">
+        <div class="about-card glass-card scroll-reveal fade-up">
+            <h3><i class="fas fa-graduation-cap"></i> Training & Education</h3>
+            <div class="timeline">
+                {% for edu in education %}
+                <div class="timeline-item">
+                    <div class="timeline-dot cosmic-dot"></div>
+                    <div class="timeline-date">{{ edu.start_date }} - {{ edu.end_date }}</div>
+                    <div class="timeline-content">
+                        <h4>{{ edu.institution }}</h4>
+                        <p>{{ edu.degree }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No educational records found.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="about-card glass-card scroll-reveal fade-up" style="transition-delay: 200ms;">
+            <h3><i class="fas fa-flask"></i> Research Logs</h3>
+            <div class="research-list">
+                {% for res in research %}
+                <div class="research-item">
+                    <h4>{{ res.title }}</h4>
+                    <p>{{ res.description }}</p>
+                </div>
+                {% empty %}
+                <p>No research records found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section id="experience" class="experience-section">
+    <div class="section-heading scroll-reveal">
+        <h2><i class="fas fa-rocket"></i> Flight Log (Experience)</h2>
+        <div class="line cosmic-line"></div>
+    </div>
+    <div class="experience-container">
+        {% for exp in experience %}
+        <div class="experience-card glass-card scroll-reveal fade-up">
+            <div class="exp-header">
+                <h3>{{ exp.role }} <span class="text-gradient">@ {{ exp.company }}</span></h3>
+                <span class="exp-date">{{ exp.start_date }} - {% if exp.is_present %}Present{% else %}{{ exp.end_date }}{% endif %}</span>
+            </div>
+            {% if exp.location %}
+            <p class="exp-location"><i class="fas fa-map-marker-alt"></i> {{ exp.location }}</p>
+            {% endif %}
+            <div class="exp-desc">
+                {{ exp.description|linebreaks }}
+            </div>
+        </div>
+        {% empty %}
+        <p>No flight logs found.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="projects-section">
+    <div class="section-heading scroll-reveal">
+        <h2><i class="fas fa-meteor"></i> Successful Missions (Projects)</h2>
+        <div class="line cosmic-line"></div>
+    </div>
+    <div class="projects-grid">
+        {% for project in projects %}
+        <div class="project-card glass-card scroll-reveal scale-up">
+            <div class="project-content">
+                <div class="project-top">
+                    <i class="fas fa-folder-open folder-icon"></i>
+                    <div class="project-links">
+                        {% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank"><i class="fab fa-github"></i></a>
+                        {% endif %}
+                        {% if project.live_link %}
+                        <a href="{{ project.live_link }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+                <h3 class="project-title">{{ project.name }}</h3>
+                <div class="project-description">
+                    {{ project.description|linebreaks }}
+                </div>
+                <ul class="project-tech-list text-gradient">
+                    {{ project.tech_stack }}
+                </ul>
+            </div>
+        </div>
+        {% empty %}
+        <p>No missions found.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="skills-section">
+    <div class="section-heading scroll-reveal">
+        <h2><i class="fas fa-microchip"></i> Ship Systems (Skills)</h2>
+        <div class="line cosmic-line"></div>
+    </div>
+    <div class="skills-container">
+        {% for category in skill_categories %}
+        <div class="skill-category glass-card scroll-reveal fade-up">
+            <h3>{{ category.name }}</h3>
+            <div class="skill-tags">
+                {% for skill in category.skills.all %}
+                <span class="tag cosmic-tag">{{ skill.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% empty %}
+        <p>No skills data found.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Achievements Section -->
+<section id="achievements" class="achievements-section">
+    <div class="section-heading scroll-reveal">
+        <h2><i class="fas fa-trophy"></i> Commendations (Achievements)</h2>
+        <div class="line cosmic-line"></div>
+    </div>
+    <div class="achievements-grid">
+        {% for achievement in achievements %}
+        <div class="achievement-card glass-card scroll-reveal fade-up">
+            <i class="fas fa-star text-gradient star-icon"></i>
+            <p>{{ achievement.description }}</p>
+        </div>
+        {% empty %}
+        <p>No commendations found.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact-section">
+    <div class="contact-content glass-card scroll-reveal scale-up text-center">
+        <h2 class="contact-title glow-text">Open Comms</h2>
+        <p class="contact-desc">
+            Looking for a new crew member or just want to transmit a message? My comms channel is always open.
+        </p>
+        {% if profile.email %}
+        <a href="mailto:{{ profile.email }}" class="btn primary-btn cosmic-btn large-btn">Transmit Message</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}
